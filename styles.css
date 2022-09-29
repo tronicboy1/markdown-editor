@@ -1,0 +1,52 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  --secondary: rgb(214, 214, 214);
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+.row-box {
+  display: flex;
+  flex-direction: row;
+}
+
+img {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+}
+
+.column {
+  flex: 1 1 50%;
+  min-height: 100vh;
+  margin: 0.5rem;
+}
+
+.grey-background {
+  background-color: var(--secondary);
+}
+
+.row-box button {
+  width: 90%;
+  max-width: 200px;
+  margin: 1rem auto 0 auto;
+  height: 40px;
+  background-color: var(--secondary);
+  border: 1px solid var(--secondary);
+  cursor: pointer;
+  border-radius: 4px;
+}
+#save:hover {
+  background-color: rgb(224, 224, 224);
+}
+
+article {
+  color: black;
+  min-height: 100%;
+  padding: 0 1rem;
+}

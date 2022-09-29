@@ -1,0 +1,19 @@
+{
+  "name": "markdown-editor",
+  "version": "1.0.0",
+  "main": "lib/main.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "build": "tsc && npx esbuild src/application/index.ts --bundle --outfile=lib/index.js"
+  },
+  "dependencies": {
+    "electron": "^21.0.1",
+    "esbuild": "^0.15.9",
+    "lit-markdown-editor": "^1.1.2",
+    "marked": "^4.1.0"
+  },
+  "devDependencies": {
+    "@types/marked": "^4.0.7"
+  }
+}
