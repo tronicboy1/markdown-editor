@@ -23,7 +23,7 @@ img {
 
 .column {
   flex: 1 1 50%;
-  min-height: 90vh;
+  height: 90vh;
   margin: 0.5rem;
 }
 
@@ -50,4 +50,8 @@ article {
   height: 100%;
   overflow-y: auto;
   padding: 0 1rem;
+}
+
+article > :last-child {
+  margin-bottom: 100vh;
 }
