@@ -1,15 +1,21 @@
-const { app, BrowserWindow } = require("electron");
+import { app, BrowserWindow, ipcMain } from "electron";
+import path from "path";
+import fs from "fs";
 
 const createWindow = () => {
   const win = new BrowserWindow({
     width: 800,
     height: 600,
+    webPreferences: {
+      preload: path.join(__dirname, "preload.js"),
+    },
   });
 
   win.loadFile("index.html");
 };
 
 app.whenReady().then(() => {
+  // ipcMain.on("save-images", async (event, data: ArrayBuffer[]) => {});
   createWindow();
 
   app.on("activate", () => {

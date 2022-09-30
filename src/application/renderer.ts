@@ -1,5 +1,6 @@
 import "lit-markdown-editor";
-import { replaceBlobURLsWithDataString } from "./helpers";
+import { collectImages, convertStringToBlob } from "./helpers";
+import JSZip from "jszip";
 import { marked } from "marked";
 import type { LitMarkdownEditor } from "lit-markdown-editor";
 
@@ -24,9 +25,6 @@ editor.addEventListener("input", () => {
   });
 });
 
-const convertStringToBlob = (string: string) =>
-  new Blob([string], { type: "text/plain; charset=UTF-8" });
-
 const saveButton = document.querySelector("button#save")!;
 const anchor = /** @type {HTMLAnchorElement!} */ document.querySelector("a")!;
 const saveImagesButton = document.querySelector("button#save-images")!;
@@ -40,13 +38,22 @@ saveButton.addEventListener("click", () => {
 });
 saveImagesButton.addEventListener("click", () => {
   const value = /** @type {string!} */ editor.value;
-  replaceBlobURLsWithDataString(value).then(markdownWithImages => {
-    const blob = convertStringToBlob(markdownWithImages);
-    const blobUrl = URL.createObjectURL(blob);
-    anchor.href = blobUrl;
-    anchor.download = "article.md";
-    anchor.click();
-  });
+  collectImages(value)
+    .then(filenamesAndBlobs => {
+      const zip = new JSZip();
+      const blob = convertStringToBlob(value);
+      zip.file("markdown.md", blob);
+      for (const [filename, blob] of filenamesAndBlobs) {
+        zip.file(filename, blob);
+      }
+      return zip.generateAsync({ type: "blob" });
+    })
+    .then(zipBlob => {
+      const blobUrl = URL.createObjectURL(zipBlob);
+      anchor.href = blobUrl;
+      anchor.download = "article.zip";
+      anchor.click();
+    });
 });
 
 const cache = window.localStorage.getItem("cache");
