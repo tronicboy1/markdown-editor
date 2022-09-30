@@ -1,17 +1,7 @@
 import "lit-markdown-editor";
-import { collectImages, convertStringToBlob } from "./helpers";
+import { collectImages, convertStringToBlob, renderMarkdown } from "./helpers";
 import JSZip from "jszip";
-import { marked } from "marked";
 import type { LitMarkdownEditor } from "lit-markdown-editor";
-
-/** @type {() => Promise<string>} */
-const renderMarkdown = (input: string) =>
-  new Promise<string>((resolve, reject) => {
-    marked(input, (error, result) => {
-      if (error) return reject(error);
-      resolve(result);
-    });
-  });
 
 const editor = document.querySelector<LitMarkdownEditor>(
   "lit-markdown-editor"
