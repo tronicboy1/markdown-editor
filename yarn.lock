@@ -2062,10 +2062,10 @@ lit-html@^2.2.0, lit-html@^2.3.0:
   dependencies:
     "@types/trusted-types" "^2.0.2"
 
-lit-markdown-editor@^1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/lit-markdown-editor/-/lit-markdown-editor-1.2.1.tgz#e23a5371e8e145ecf79a65038e847c8a2c68d0de"
-  integrity sha512-5ISbjKZnyrix08ngf+xtfRXMSQPJTzhSvyFXqANfg+k7e70Yo3HZi486sMoHGzsQMGsxvYpLvLQpy3Foz09eJQ==
+lit-markdown-editor@^1.4.1:
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/lit-markdown-editor/-/lit-markdown-editor-1.4.1.tgz#14f161c5920efc387142993309498f6a2cdc02cc"
+  integrity sha512-d9nUYl3/gfgICj9YlU4EnZbGuCvkzo897ezp8yvuAN8yZp6nE3X9p68+XxwhxzZY7qleqrJRVV7/3MWVzTa4qw==
   dependencies:
     lit "^2.3.1"
 
