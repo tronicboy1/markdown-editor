@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain } from "electron";
+import { app, BrowserWindow, ipcMain, shell } from "electron";
 import path from "path";
 import fs from "fs";
 
@@ -13,8 +13,9 @@ const createWindow = () => {
 
   win.loadFile("index.html");
 
-  win.webContents.addListener("new-window", (event) => {
+  win.webContents.on("will-navigate", (event, url) => {
     event.preventDefault();
+    shell.openExternal(url);
   })
 
   return win;
