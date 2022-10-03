@@ -12,6 +12,12 @@ const createWindow = () => {
   });
 
   win.loadFile("index.html");
+
+  win.webContents.addListener("new-window", (event) => {
+    event.preventDefault();
+  })
+
+  return win;
 };
 
 app.whenReady().then(() => {
