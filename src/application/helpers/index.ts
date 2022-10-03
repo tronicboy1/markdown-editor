@@ -2,6 +2,20 @@ import { marked } from "marked";
 
 export type FilenameAndBlob = [string, Blob];
 
+export const readFileAsBufferArray = (file: File) =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+
+    reader.addEventListener("load", () => {
+      const { result } = reader;
+      if (!(result instanceof ArrayBuffer)) throw TypeError();
+      resolve(result);
+    });
+    reader.addEventListener("error", () => reject(reader.error));
+
+    reader.readAsArrayBuffer(file);
+  });
+
 export const collectImages = (text: string) => {
   const matches = Array.from(text.matchAll(/!\[.*\]\(blob:(.*) "(.*)"\)/g));
   console.log(matches);
