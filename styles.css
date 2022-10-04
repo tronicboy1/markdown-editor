@@ -2,6 +2,8 @@ html,
 body {
   margin: 0;
   padding: 0;
+  height: 100%;
+  width: 100%;
   --secondary: rgb(214, 214, 214);
   --secondary-hover: rgb(226, 226, 226);
 }
@@ -47,6 +49,7 @@ img {
 
 .grey-background {
   background-color: var(--secondary);
+  border-radius: 4px;
 }
 
 .row-box button {
@@ -85,4 +88,25 @@ article {
 
 article > :last-child {
   margin-bottom: 100vh;
+}
+
+article pre {
+  background-color: #364549;
+  padding: 1rem;
+}
+article pre code {
+  color: #e3e3e3;
+  background-color: inherit;
+}
+
+article code {
+  display: inline-flex;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.08);
+  color: #333;
+  padding: 0.1em 0.4em;
+}
+
+article h1, h2 {
+  border-bottom: rgba(255, 255, 255, 0.352) solid 1px;
 }
