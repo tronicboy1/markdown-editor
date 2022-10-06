@@ -29,6 +29,7 @@ body {
   cursor: pointer;
   height: 30px;
   min-width: 50px;
+  border-radius: 0;
 }
 
 .toolbar button:last-child {
@@ -58,7 +59,6 @@ img {
   max-width: 200px;
   margin: 1rem auto 0 auto;
   height: 40px;
-  border-radius: 4px;
 }
 #save:hover {
   background-color: rgb(224, 224, 224);
@@ -68,6 +68,8 @@ button {
   background-color: var(--secondary);
   border: 1px solid var(--secondary);
   cursor: pointer;
+  min-height: 30px;
+  border-radius: 4px;
 }
 
 button svg {

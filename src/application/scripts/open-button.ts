@@ -11,7 +11,7 @@ const handleOpenClick: EventListener = () => hiddenInput.click();
 const handleFileInput: EventListener = event => {
   const files = hiddenInput.files;
   if (!files) throw TypeError("Listener must be used with file input.");
-  const [file] = files;
+  const [file] = Array.from(files);
   if (!(file && file.size)) return;
   const regex = /.*\.md$/;
   if (regex.test(file.name)) {

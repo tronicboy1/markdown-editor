@@ -1,8 +1,10 @@
 import "lit-markdown-editor";
+import { tagName as modalTagName } from "./components/base-modal";
 import "./scripts/save-buttons";
 import "./scripts/open-button";
 import { renderMarkdown } from "./helpers";
 
+const root = document.getElementById("root")!;
 const editor = document.querySelector("lit-markdown-editor")!;
 const article = document.querySelector("article")!;
 editor.addEventListener("input", () => {
@@ -31,5 +33,29 @@ document.addEventListener("keydown", event => {
 
 const cache = window.localStorage.getItem("cache");
 if (cache) {
-  editor.innerHTML = cache;
+  new Promise(resolve => {
+    const modal = document.createElement(modalTagName);
+    modal.toggleAttribute("show", true);
+    modal.modalTitle = "Restore old data?";
+    modal.addEventListener("close", () => resolve(true), { once: true });
+    const yesButton = document.createElement("button");
+    const noButton = document.createElement("button");
+    yesButton.textContent = "Yes";
+    noButton.textContent = "No";
+    yesButton.setAttribute("slot", "buttons");
+    noButton.setAttribute("slot", "buttons");
+    modal.append(yesButton, noButton);
+    root.append(modal);
+    yesButton.addEventListener(
+      "click",
+      () => {
+        editor.updateComplete.then(() => {
+          editor.value = cache;
+          return resolve(true);
+        });
+      },
+      { once: true }
+    );
+    noButton.addEventListener("click", () => resolve(true), { once: true });
+  }).finally(() => (root.innerHTML = ""));
 }
