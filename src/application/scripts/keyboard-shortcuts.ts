@@ -15,3 +15,8 @@ metaKeyPressed$
 metaKeyPressed$
   .pipe(filter(event => event.key.toUpperCase() === "O"))
   .subscribe(() => openButton.dispatchEvent(new Event("click")));
+metaKeyPressed$
+  .pipe(filter(event => event.key.toUpperCase() === "R"))
+  .subscribe(event => {
+    event.preventDefault();
+  });
