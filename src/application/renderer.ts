@@ -3,17 +3,28 @@ import { tagName as modalTagName } from "./components/base-modal";
 import "./scripts/save-buttons";
 import "./scripts/open-button";
 import { renderMarkdown } from "./helpers";
+import { debounce, debounceTime, fromEvent, map, sampleTime } from "rxjs";
+import { LitMarkdownEditor } from "lit-markdown-editor";
 
 const root = document.getElementById("root")!;
 const editor = document.querySelector("lit-markdown-editor")!;
 const article = document.querySelector("article")!;
-editor.addEventListener("input", () => {
-  const value = editor.value;
-  window.localStorage.setItem("cache", value);
-  renderMarkdown(value).then(rawHTML => {
-    article.innerHTML = rawHTML;
+const editorInput$ = fromEvent(editor, "input");
+editorInput$
+  .pipe(
+    sampleTime(200),
+    map(event => {
+      const target = event.target;
+      if (!(target instanceof LitMarkdownEditor)) throw TypeError();
+      return target.value;
+    })
+  )
+  .subscribe(value => {
+    window.localStorage.setItem("cache", value);
+    renderMarkdown(value).then(rawHTML => {
+      article.innerHTML = rawHTML;
+    });
   });
-});
 
 const saveButton = document.querySelector("button#save")!;
 const saveImagesButton = document.querySelector("button#save-images")!;

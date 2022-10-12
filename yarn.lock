@@ -2069,10 +2069,10 @@ lit-html@^2.4.0:
   dependencies:
     "@types/trusted-types" "^2.0.2"
 
-lit-markdown-editor@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/lit-markdown-editor/-/lit-markdown-editor-2.2.0.tgz#5f3ee846dfd842a97e92dc382a0e999f204b91f3"
-  integrity sha512-stuqZWJrljyoF901DvDBsrZozhtH6uJLSH/HFurhb00pAivryUKkCEIJFPTQQ+Ru/U7M6499wYhE3tyyX+mkjw==
+lit-markdown-editor@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/lit-markdown-editor/-/lit-markdown-editor-2.2.1.tgz#71a61a377c575abe49b78d29d24f56b1c499921d"
+  integrity sha512-vmXdWszi9rKIxOTPHv9t65I6rGrQKweGK8IE8P3vAZh3PFMLqqzJOvd/dW/daidcwstN4jUuuOx58//KngI1GQ==
   dependencies:
     lit "^2.3.1"
 
@@ -2947,7 +2947,7 @@ run-parallel@^1.1.9:
   dependencies:
     queue-microtask "^1.2.2"
 
-rxjs@^7.5.5:
+rxjs@^7.5.5, rxjs@^7.5.7:
   version "7.5.7"
   resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-7.5.7.tgz#2ec0d57fdc89ece220d2e702730ae8f1e49def39"
   integrity sha512-z9MzKh/UcOqB3i20H6rtrlaE/CgjLOvheWK/9ILrbhROGTweAi1BaFsTT9FbwZi5Trr1qNRs+MXkhmR06awzQA==
