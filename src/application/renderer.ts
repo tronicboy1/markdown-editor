@@ -3,7 +3,7 @@ import { tagName as modalTagName } from "./components/base-modal";
 import "./scripts/save-buttons";
 import "./scripts/open-button";
 import { renderMarkdown } from "./helpers";
-import { debounce, debounceTime, fromEvent, map, sampleTime } from "rxjs";
+import { filter, fromEvent, map, sampleTime } from "rxjs";
 import { LitMarkdownEditor } from "lit-markdown-editor";
 
 const root = document.getElementById("root")!;
@@ -29,18 +29,18 @@ editorInput$
 const saveButton = document.querySelector("button#save")!;
 const saveImagesButton = document.querySelector("button#save-images")!;
 const openButton = document.querySelector<HTMLButtonElement>("button#open")!;
-document.addEventListener("keydown", event => {
-  const isMeta = event.metaKey;
-  const shiftPressed = event.shiftKey;
-  const isDkey = event.key.toUpperCase() === "D";
-  const isOkey = event.key.toUpperCase() === "O";
-  if (!isMeta) return;
-  if (isOkey) return openButton.dispatchEvent(new Event("click"));
-  if (isDkey && shiftPressed)
-    return saveImagesButton.dispatchEvent(new Event("click"));
-  if (isDkey) return saveButton.dispatchEvent(new Event("click"));
-  return;
-});
+const keydown$ = fromEvent<KeyboardEvent>(document, "keydown");
+const metaKeyPressed$ = keydown$.pipe(filter(event => event.metaKey));
+metaKeyPressed$
+  .pipe(filter(event => event.key.toUpperCase() === "D"))
+  .subscribe(event => {
+    const shiftPressed = event.shiftKey;
+    if (shiftPressed) return saveImagesButton.dispatchEvent(new Event("click"));
+    return saveButton.dispatchEvent(new Event("click"));
+  });
+metaKeyPressed$
+  .pipe(filter(event => event.key.toUpperCase() === "O"))
+  .subscribe(() => openButton.dispatchEvent(new Event("click")));
 
 const cache = window.localStorage.getItem("cache");
 if (cache) {
