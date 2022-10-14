@@ -6,6 +6,7 @@ body {
   width: 100%;
   --secondary: rgb(214, 214, 214);
   --secondary-hover: rgb(226, 226, 226);
+  background-color: rgb(191, 191, 191);
 }
 
 body {
@@ -47,6 +48,7 @@ img {
   flex: 1 1 50%;
   height: 90vh;
   margin: 0.5rem;
+  max-width: 50vw;
 }
 
 .grey-background {
