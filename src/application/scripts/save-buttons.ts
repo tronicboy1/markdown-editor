@@ -19,6 +19,7 @@ saveButton.addEventListener("click", async () => {
   await writeableStream.close();
 });
 
+let zipFileHandle: Awaited<ReturnType<typeof window.showSaveFilePicker>>;
 saveImagesButton.addEventListener("click", async () => {
   const value = editor.value;
   const filenamesAndBlobs = await collectImages(value);
@@ -32,11 +33,26 @@ saveImagesButton.addEventListener("click", async () => {
   const zipBlob = await zip.generateAsync({ type: "blob" });
   const cacheKey = "filename-zip";
   const fileNameCache = window.localStorage.getItem(cacheKey);
-  const newFileHandle = await window.showSaveFilePicker({
+  zipFileHandle ||= await window.showSaveFilePicker({
     suggestedName: fileNameCache ?? "article.zip",
   });
-  window.localStorage.setItem(cacheKey, newFileHandle.name);
-  const writeableStream = await newFileHandle.createWritable();
+  const { name } = zipFileHandle;
+  if (fileNameCache !== name) window.localStorage.setItem(cacheKey, name);
+  animateActivation(saveImagesButton);
+  const writeableStream = await zipFileHandle.createWritable();
   await writeableStream.write(zipBlob);
   await writeableStream.close();
 });
+
+const elementTimerMap: Map<Element, ReturnType<typeof setTimeout>> = new Map();
+const animateActivation = (element: Element) => {
+  const className = "activated";
+  element.classList.add(className);
+  const oldTimer = elementTimerMap.get(element);
+  if (oldTimer) {
+    elementTimerMap.delete(element);
+    clearTimeout(oldTimer);
+  }
+  const timer = setTimeout(() => element.classList.remove(className), 1000);
+  elementTimerMap.set(element, timer);
+};

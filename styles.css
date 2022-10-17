@@ -31,10 +31,16 @@ body {
   height: 30px;
   min-width: 50px;
   border-radius: 0;
+  transition: all 0.5s;
 }
 
 .toolbar button:last-child {
   border-bottom-right-radius: 4px;
+}
+
+.activated {
+  background-color: var(--secondary-hover) !important;
+  border-color: var(--secondary-hover) !important;
 }
 
 img {
@@ -112,6 +118,7 @@ article code {
   padding: 0.1em 0.4em;
 }
 
-article h1, h2 {
+article h1,
+h2 {
   border-bottom: rgba(255, 255, 255, 0.352) solid 1px;
 }

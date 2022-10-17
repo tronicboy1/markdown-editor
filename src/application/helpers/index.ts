@@ -18,7 +18,6 @@ export const readFileAsBufferArray = (file: File) =>
 
 export const collectImages = (text: string) => {
   const matches = Array.from(text.matchAll(/!\[.*\]\(blob:(.*) "(.*)"\)/g));
-  console.log(matches);
   const imageFilenamesAndUrls = matches.map(match => [
     "blob:" + match[1],
     match[2],
