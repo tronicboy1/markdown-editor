@@ -2,6 +2,8 @@ import { app, BrowserWindow, ipcMain, shell } from "electron";
 import path from "path";
 import fs from "fs";
 
+app.commandLine.appendSwitch("enable-experimental-web-platform-features");
+
 const createWindow = () => {
   const win = new BrowserWindow({
     width: 800,
