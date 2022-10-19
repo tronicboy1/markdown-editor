@@ -36,10 +36,26 @@ export class WcArticle extends LitElement {
         padding: 1rem;
       }
 
+      * {
+        box-sizing: border-box;
+      }
+
       article {
-        display: flex;
-        flex-direction: column;
+        color: black;
+        height: 100%;
+        overflow-y: auto;
+        padding: 0 1rem;
+      }
+
+      article > :last-child {
         margin-bottom: 100vh;
+      }
+
+      img {
+        width: auto;
+        height: auto;
+        max-width: 100%;
+        max-height: 50vh;
       }
     `,
   ];
