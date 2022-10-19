@@ -1,15 +1,16 @@
 import "lit-markdown-editor";
+import "./components/wc-article";
 import { tagName as modalTagName } from "./components/base-modal";
 import "./scripts/save-buttons";
 import "./scripts/open-button";
-import "./scripts/keyboard-shortcuts"
+import "./scripts/keyboard-shortcuts";
 import { renderMarkdown } from "./helpers";
 import { fromEvent, map, sampleTime } from "rxjs";
 import { LitMarkdownEditor } from "lit-markdown-editor";
 
 const root = document.getElementById("root")!;
 const editor = document.querySelector("lit-markdown-editor")!;
-const article = document.querySelector("article")!;
+const article = document.querySelector("wc-article")!;
 const editorInput$ = fromEvent(editor, "input");
 editorInput$
   .pipe(
@@ -22,9 +23,7 @@ editorInput$
   )
   .subscribe(value => {
     window.localStorage.setItem("cache", value);
-    renderMarkdown(value).then(rawHTML => {
-      article.innerHTML = rawHTML;
-    });
+    article.raw = value;
   });
 
 const cache = window.localStorage.getItem("cache");

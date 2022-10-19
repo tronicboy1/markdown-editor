@@ -9,6 +9,10 @@ body {
   background-color: rgb(191, 191, 191);
 }
 
+* {
+  box-sizing: border-box;
+}
+
 body {
   display: flex;
   flex-direction: column;
