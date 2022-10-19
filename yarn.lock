@@ -2142,10 +2142,10 @@ lit-markdown-editor@^2.3.0:
     lit "^2.4.0"
     rxjs "^7.5.7"
 
-lit-markdown@^1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/lit-markdown/-/lit-markdown-1.2.1.tgz#f8a8cb67bb33de66d472d22a062f4924e425f0c4"
-  integrity sha512-Tq5XAcy87Zb8dVY9yWieza+y+VHTkePnPT9iWvyqlwujAtESeMPB8C/vDmpLeQVluCXdp2J+GPSprYeHNW8gVg==
+lit-markdown@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/lit-markdown/-/lit-markdown-1.3.0.tgz#caec507b08226627b8be918acf90f6a9fa043774"
+  integrity sha512-28LnlwpkUhakQe3y5XYOY/4nC8Bg6krFfdTvJh6H+Qc2CP5OmMxtAZi/xRkPXi0p2umz5DWQkIBTmFYV6/d9lA==
   dependencies:
     lit "^2.3.1"
     marked "^4.1.0"

@@ -1,6 +1,6 @@
 import { css, html, LitElement } from "lit";
 import { customElement, query, state } from "lit/decorators.js";
-import { resolveMarkdown } from "lit-markdown";
+import { resolveMarkdownAndEmitEvent } from "./directives/markdown";
 import HighlighJS from "highlight.js";
 
 export const tagName = "wc-article";
@@ -12,12 +12,18 @@ export class WcArticle extends LitElement {
   @query("article")
   private article!: HTMLElement;
 
-  updated() {
-    this.updateComplete.then(() =>
-      this.article
-        .querySelectorAll("pre")
-        .forEach(pre => HighlighJS.highlightElement(pre.querySelector("code")!))
-    );
+  connectedCallback() {
+    super.connectedCallback();
+    // this is a hack and should not be mimicked
+    window.addEventListener("markdown-updated", () => {
+      this.updateComplete.then(() => {
+        this.article
+          .querySelectorAll("pre")
+          .forEach(pre =>
+            HighlighJS.highlightElement(pre.querySelector("code")!)
+          );
+      });
+    });
   }
 
   static styles = [
@@ -44,12 +50,14 @@ export class WcArticle extends LitElement {
         rel="stylesheet"
         href="https://unpkg.com/mustard-ui@latest/dist/css/mustard-ui.min.css"
       />
-      <link rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/github-dark.min.css">
+      <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/github-dark.min.css"
+      />
       <article>
-        ${resolveMarkdown(this.raw, {
-          includeImages: true,
-          includeCodeBlockClassNames: true,
+        ${resolveMarkdownAndEmitEvent(this.raw, {
+          skipSanitization: true,
+          loadingHTML: "",
         })}
       </article>
     `;
