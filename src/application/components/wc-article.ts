@@ -1,28 +1,54 @@
-import { css, html, LitElement } from "lit";
-import { customElement, query, state } from "lit/decorators.js";
-import { resolveMarkdownAndEmitEvent } from "./directives/markdown";
-import HighlighJS from "highlight.js";
+import { css, html, render } from "lit";
+import { customElement } from "lit/decorators.js";
+import HighlightJS from "highlight.js";
+import { marked } from "marked";
 
 export const tagName = "wc-article";
 
 @customElement(tagName)
-export class WcArticle extends LitElement {
-  @state()
-  public raw = "";
-  @query("article")
+export class WcArticle extends HTMLElement {
+  #raw = "";
+  public get raw(): string {
+    return this.#raw;
+  }
+  public set raw(value: string) {
+    if (this.#raw === value) return;
+    this.#raw = value;
+    this.renderMarkdown();
+  }
   private article!: HTMLElement;
 
+  constructor() {
+    super();
+    this.attachShadow({ mode: "open" });
+    if (!this.shadowRoot) throw Error("No shadow Root");
+    const styles = document.createElement("style");
+    styles.innerHTML = WcArticle.styles.reduce(
+      (accumulator, current) => accumulator + current.cssText,
+      ""
+    );
+    this.shadowRoot.append(styles);
+  }
+
   connectedCallback() {
-    super.connectedCallback();
-    // this is a hack and should not be mimicked
-    window.addEventListener("markdown-updated", () => {
-      this.updateComplete.then(() => {
-        this.article
-          .querySelectorAll("pre")
-          .forEach(pre =>
-            HighlighJS.highlightElement(pre.querySelector("code")!)
-          );
+    render(this.render(), this.shadowRoot!);
+    this.article = this.shadowRoot!.querySelector("article")!;
+  }
+
+  private renderMarkdown() {
+    if (!this.article) throw Error("No article");
+    return new Promise<string>((resolve, reject) => {
+      marked.parse(this.raw, (error, result) => {
+        if (error) return reject(error);
+        resolve(result);
       });
+    }).then(renderedMarkdown => {
+      this.article.innerHTML = renderedMarkdown;
+      this.article
+        .querySelectorAll("pre")
+        .forEach(pre =>
+          HighlightJS.highlightElement(pre.querySelector("code")!)
+        );
     });
   }
 
@@ -57,6 +83,12 @@ export class WcArticle extends LitElement {
         max-width: 100%;
         max-height: 50vh;
       }
+
+      code {
+        background-color: rgba(0, 0, 0, 0.08);
+        color: #333;
+        padding: 0.1em 0.4em;
+      }
     `,
   ];
 
@@ -70,12 +102,7 @@ export class WcArticle extends LitElement {
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/github-dark.min.css"
       />
-      <article>
-        ${resolveMarkdownAndEmitEvent(this.raw, {
-          skipSanitization: true,
-          loadingHTML: "",
-        })}
-      </article>
+      <article></article>
     `;
   }
 }
