@@ -1,4 +1,8 @@
-import { collectImages, convertStringToBlob } from "../helpers";
+import {
+  collectImages,
+  convertStringToBlob,
+  readFileAsDataURL,
+} from "../helpers";
 import JSZip from "jszip";
 
 const editor = document.querySelector("lit-markdown-editor")!;
@@ -7,7 +11,19 @@ const saveImagesButton = document.querySelector("button#save-images")!;
 
 saveButton.addEventListener("click", async () => {
   const value = editor.value;
-  const blob = convertStringToBlob(value);
+  const markdownImageRegex = /\!\[.*\]\((.*) "(.*)"\)/g;
+  const imageFileNamesRegexMatches = Array.from(
+    value.matchAll(markdownImageRegex)
+  );
+  let replacedMarkdown = value;
+  for (const [match, blobLink, fileName] of imageFileNamesRegexMatches) {
+    const blob = await fetch(blobLink).then(res => res.blob());
+    const file = new File([blob], fileName, { type: "image/png" });
+    const dataURL = await readFileAsDataURL(file);
+    const newImageMarkdown = match.replace(/blob:file:.* "/, dataURL + ' "');
+    replacedMarkdown = replacedMarkdown.replace(match, newImageMarkdown);
+  }
+  const blob = convertStringToBlob(replacedMarkdown);
   const cacheKey = "filename";
   const fileNameCache = window.localStorage.getItem(cacheKey);
   const newFileHandle = await window.showSaveFilePicker({

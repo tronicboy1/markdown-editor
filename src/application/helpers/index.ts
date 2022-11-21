@@ -16,6 +16,20 @@ export const readFileAsBufferArray = (file: File) =>
     reader.readAsArrayBuffer(file);
   });
 
+export const readFileAsDataURL = (file: File) =>
+  new Promise<string>((resolve, reject) => {
+    const reader = new FileReader();
+
+    reader.addEventListener("load", () => {
+      const { result } = reader;
+      if (typeof result !== "string") throw TypeError();
+      resolve(result);
+    });
+    reader.addEventListener("error", () => reject(reader.error));
+
+    reader.readAsDataURL(file);
+  });
+
 export const collectImages = (text: string) => {
   const matches = Array.from(text.matchAll(/!\[.*\]\(blob:(.*) "(.*)"\)/g));
   const imageFilenamesAndUrls = matches.map(match => [
